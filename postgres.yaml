@@ -46,12 +46,21 @@ spec:
           ports:
             - containerPort: 5432  # Exposes container port
           env:
-            - name: "POSTGRES_USER"
-              value: "userdemomanifest"
-            - name: "POSTGRES_PASSWORD"
-              value: "My$ecrETPAss0rd*"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_PASSWORD
             - name: POSTGRESQL_DATABASE
-              value: "demo"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_DB
           volumeMounts:
             - mountPath: /bitnami/postgresql
               name: postgredb

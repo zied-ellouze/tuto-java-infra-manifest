@@ -23,9 +23,15 @@ spec:
           imagePullPolicy: Always
           env:
             - name: SPRING_DATASOURCE_USERNAME
-              value: "userdemomanifest"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_USER
             - name: SPRING_DATASOURCE_PASSWORD
-              value: "My$ecrETPAss0rd*"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_PASSWORD
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://postgres-manifest:5432/demo
           resources:
